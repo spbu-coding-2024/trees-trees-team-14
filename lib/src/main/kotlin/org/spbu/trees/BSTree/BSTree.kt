@@ -86,4 +86,26 @@ class BSTree<K : Comparable<K>, V>(
             return parent.value
         }
     }
+
+    override fun iterator(): Iterator<Pair<K, V>> {
+        val elements = mutableListOf<Pair<K, V>>()
+
+        fun traverse(node: BSNode<K, V>) {
+            if (node.left != null) {
+                traverse(node.left!!)
+            }
+
+            elements.add(node.key to node.value)
+
+            if (node.right != null) {
+                traverse(node.right!!)
+            }
+        }
+
+        if (root != null) {
+            traverse(root!!)
+        }
+
+        return elements.iterator()
+    }
 }

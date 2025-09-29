@@ -266,4 +266,28 @@ class TwoThreeTree<K : Comparable<K>, V>(
         }
         return if (node.isLeaf) node.values.first() else getMinValue(node.children.first())
     }
+
+    override fun iterator(): Iterator<Pair<K, V>> {
+        val elements = mutableListOf<Pair<K, V>>()
+
+        fun traverse(node: TwoThreeNode<K, V>) {
+            if (node.isLeaf) {
+                for (i in node.keys.indices) {
+                    elements.add(node.keys[i] to node.values[i])
+                }
+            } else {
+                for (i in node.keys.indices) {
+                    traverse(node.children[i])
+                    elements.add(node.keys[i] to node.values[i])
+                }
+                traverse(node.children[node.keys.size])
+            }
+        }
+
+        if (requiredRoot.keys.isNotEmpty() || !requiredRoot.isLeaf) {
+            traverse(requiredRoot)
+        }
+
+        return elements.iterator()
+    }
 }

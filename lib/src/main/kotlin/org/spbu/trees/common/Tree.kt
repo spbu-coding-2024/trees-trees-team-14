@@ -10,4 +10,6 @@ interface Tree<K : Comparable<K>, V, N : Node<K, V>> {
     fun search(key: K): V
 
     fun contains(key: K): Boolean
+
+    fun iterator(): Iterator<Pair<K, V>>
 }

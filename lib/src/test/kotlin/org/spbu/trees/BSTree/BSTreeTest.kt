@@ -1,8 +1,10 @@
 package org.spbu.trees.BSTree
 
+import org.junit.Assert
 import org.junit.Test
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertEquals
+import org.spbu.trees.TwoThreeTree.TwoThreeTree
 import kotlin.test.assertFailsWith
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -239,5 +241,69 @@ class BSTreeTest {
         assertFailsWith<IllegalArgumentException> {
             tree.delete(100)
         }
+    }
+
+    // iterator
+
+    @Test
+    fun testEmptyTreeIteratorHasNoElements() {
+        val tree = BSTree<Int, String>()
+        val iter = tree.iterator()
+
+        Assert.assertFalse(iter.hasNext())
+        assertFailsWith<NoSuchElementException> {
+            iter.next()
+        }
+    }
+
+    @Test
+    fun testIteratingSingleElementTree() {
+        val tree = BSTree<Int, String>()
+        tree.insert(42, "Fox")
+
+        val iter = tree.iterator()
+        Assert.assertTrue(iter.hasNext())
+
+        val (k, v) = iter.next()
+        assertEquals(42, k)
+        assertEquals("Fox", v)
+        Assert.assertFalse(iter.hasNext())
+        assertFailsWith<NoSuchElementException> {
+            iter.next()
+        }
+    }
+
+    @Test
+    fun testIteratorTraversesInOrder() {
+        val tree = BSTree<Int, String>()
+        (1..15).forEach { tree.insert(it, "$it") }
+
+        val iter = tree.iterator()
+        val keys = mutableListOf<Int>()
+        while (iter.hasNext()) {
+            keys.add(iter.next().first)
+        }
+
+        assertEquals((1..15).toList(), keys)
+    }
+
+    @Test
+    fun testIteratorSupportHasNextSeveralTimes() {
+        val tree = BSTree<Int, String>()
+        tree.insert(10, "ten")
+        tree.insert(11, "eleven")
+
+        val iter = tree.iterator()
+        Assert.assertTrue(iter.hasNext())
+        Assert.assertTrue(iter.hasNext())
+
+        val first = iter.next()
+        assertEquals(10, first.first)
+
+        Assert.assertTrue(iter.hasNext())
+        val second = iter.next()
+        assertEquals(11, second.first)
+
+        Assert.assertFalse(iter.hasNext())
     }
 }
