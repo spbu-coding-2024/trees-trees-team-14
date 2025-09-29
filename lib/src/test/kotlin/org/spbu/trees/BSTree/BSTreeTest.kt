@@ -90,38 +90,36 @@ class BSTreeTest {
         assertFalse(tree.contains(15)) // between keys
     }
 
-    // find function
+    // Search function
 
     @Test
-    fun testFindOnEmptyTree() {
+    fun testSearchOnEmptyTree() {
         val tree = BSTree<Int, String>()
         assertFailsWith<IllegalArgumentException> {
-            val tree = BSTree<Int, String>()
-            tree.find(10)
+            tree.search(10)
         }
     }
 
     @Test
-    fun testFindNotExistingKeys() {
+    fun testSearchNotExistingKeys() {
         val tree = BSTree<Int, String>()
+        tree.insert(10, "ten")
+        tree.insert(0, "zero")
+        tree.insert(20, "twenty")
+        tree.insert(-10, "negative ten")
+        tree.insert(30, "thirty")
+
         assertFailsWith<IllegalArgumentException> {
-            val tree = BSTree<Int, String>()
 
-            tree.insert(10, "ten")
-            tree.insert(0, "zero")
-            tree.insert(20, "twenty")
-            tree.insert(-10, "negative ten")
-            tree.insert(30, "thirty")
-
-            tree.find(1)
-            tree.find(-100)
-            tree.find(100)
-            tree.find(25)
+            tree.search(1)
+            tree.search(-100)
+            tree.search(100)
+            tree.search(25)
         }
     }
 
     @Test
-    fun testFindLeftAndRightKeys() {
+    fun testSearchLeftAndRightKeys() {
         val tree = BSTree<Int, String>()
 
         tree.insert(10, "ten")
@@ -130,19 +128,19 @@ class BSTreeTest {
         tree.insert(-10, "negative ten")
         tree.insert(30, "thirty")
 
-        val ten = tree.find(10)
+        val ten = tree.search(10)
         assertEquals("ten", ten)
 
-        val zero = tree.find(0)
+        val zero = tree.search(0)
         assertEquals("zero", zero)
 
-        val twenty = tree.find(20)
+        val twenty = tree.search(20)
         assertEquals("twenty", twenty)
 
-        val negativeTen = tree.find(-10)
+        val negativeTen = tree.search(-10)
         assertEquals("negative ten", negativeTen)
 
-        val thirty = tree.find(30)
+        val thirty = tree.search(30)
         assertEquals("thirty", thirty)
     }
 

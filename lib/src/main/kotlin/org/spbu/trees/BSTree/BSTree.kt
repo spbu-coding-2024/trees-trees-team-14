@@ -1,8 +1,12 @@
 package org.spbu.trees.BSTree
 
-class BSTree<K : Comparable<K>, V>(var root: BSNode<K, V>? = null) {
+import org.spbu.trees.common.Tree
 
-    fun insert(key: K, value: V) {
+class BSTree<K : Comparable<K>, V>(
+    override var root: BSNode<K, V>? = null
+) : Tree<K, V, BSNode<K, V>> {
+
+    override fun insert(key: K, value: V) {
         root = insert(root, key, value)
     }
     private fun insert(parent: BSNode<K, V>?, key: K, value: V) : BSNode<K, V> {
@@ -31,7 +35,7 @@ class BSTree<K : Comparable<K>, V>(var root: BSNode<K, V>? = null) {
         }
     }
 
-    fun delete(key: K) {
+    override fun delete(key: K) {
         root = delete(root, key)
     }
     private fun delete(parent: BSNode<K, V>?, key: K) : BSNode<K, V>? {
@@ -54,7 +58,7 @@ class BSTree<K : Comparable<K>, V>(var root: BSNode<K, V>? = null) {
         return parent
     }
 
-    fun contains(key: K) : Boolean {
+    override fun contains(key: K) : Boolean {
         return contains(root, key)
     }
     private fun contains(parent: BSNode<K, V>?, key: K) : Boolean {
@@ -68,31 +72,18 @@ class BSTree<K : Comparable<K>, V>(var root: BSNode<K, V>? = null) {
             return true
     }
 
-    fun find(key: K) : V {
-        return find(root, key)
+    override fun search(key: K) : V {
+        return search(root, key)
     }
-    private fun find(parent: BSNode<K, V>?, key: K) : V {
+    private fun search(parent: BSNode<K, V>?, key: K) : V {
         if (parent == null) {
             throw IllegalArgumentException()
         } else if (key < parent.key) {
-            return find(parent.left, key)
+            return search(parent.left, key)
         } else if ( key > parent.key) {
-            return find(parent.right, key)
+            return search(parent.right, key)
         } else {
             return parent.value
-        }
-    }
-
-    fun inOrderTraversal() {
-        inOrderTraversal(root)
-    }
-    private fun inOrderTraversal(parent: BSNode<K, V>?) {
-        if(parent == null)
-            return
-        else {
-            inOrderTraversal(parent.left)
-            println("key: ${parent.key}, value: ${parent.value}")
-            inOrderTraversal(parent.right)
         }
     }
 }

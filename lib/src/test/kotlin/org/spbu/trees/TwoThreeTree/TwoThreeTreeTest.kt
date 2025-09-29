@@ -67,7 +67,7 @@ class TwoThreeTreeTest {
         tree.insert(10, "ten")
 
         assertTrue(tree.search(10) == "ten")
-        assertEquals(listOf(10), tree.root.keys)
+        assertEquals(listOf(10), tree.requiredRoot.keys)
     }
 
     @Test
@@ -78,7 +78,7 @@ class TwoThreeTreeTest {
         tree.insert(30, "thirty")
         tree.insert(40, "forty")
 
-        assertTrue(tree.root.keys.size in 1..2)
+        assertTrue(tree.requiredRoot.keys.size in 1..2)
 
         assertEquals("ten", tree.search(10))
         assertEquals("twenty", tree.search(20))
@@ -106,7 +106,7 @@ class TwoThreeTreeTest {
                 node.children.forEach { checkDepth(it, depth + 1) }
             }
         }
-        checkDepth(tree.root, 0)
+        checkDepth(tree.requiredRoot, 0)
 
         assertEquals(1, leafDepths.size)
     }

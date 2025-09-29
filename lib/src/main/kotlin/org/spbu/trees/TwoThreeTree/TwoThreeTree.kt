@@ -1,11 +1,24 @@
 package org.spbu.trees.TwoThreeTree
 
-class TwoThreeTree<K : Comparable<K>, V>(
-    var root: TwoThreeNode<K, V> = TwoThreeNode()
-) {
+import org.spbu.trees.common.Tree
 
-    fun contains(key: K): Boolean {
-        return contains(root, key)
+class TwoThreeTree<K : Comparable<K>, V>(
+    override var root: TwoThreeNode<K, V>? = TwoThreeNode()
+) : Tree<K, V, TwoThreeNode<K, V>> {
+
+    var requiredRoot: TwoThreeNode<K, V>
+        get() {
+            if (root == null) {
+                throw IllegalArgumentException()
+            }
+            return root!!
+        }
+        set(value) {
+            root = value
+        }
+
+    override fun contains(key: K): Boolean {
+        return contains(requiredRoot, key)
     }
     private fun contains(node: TwoThreeNode<K, V>, key: K): Boolean {
         var i = 0
@@ -21,8 +34,8 @@ class TwoThreeTree<K : Comparable<K>, V>(
         return contains(node.children[i], key)
     }
 
-    fun search(key: K): V {
-        return search(root, key)
+    override fun search(key: K): V {
+        return search(requiredRoot, key)
     }
 
     private fun search(node: TwoThreeNode<K, V>, key: K): V {
@@ -39,18 +52,18 @@ class TwoThreeTree<K : Comparable<K>, V>(
         return search(node.children[i], key)
     }
 
-    fun insert(key: K, value: V) {
-        if (root.keys.size == 3) {
+    override fun insert(key: K, value: V) {
+        if (requiredRoot.keys.size == 3) {
             val newRoot = TwoThreeNode<K, V>(
                 keys = mutableListOf(),
                 values = mutableListOf(),
-                children = mutableListOf(root),
+                children = mutableListOf(requiredRoot),
                 isLeaf = false
             )
             splitChild(newRoot, 0)
-            root = newRoot
+            requiredRoot = newRoot
         }
-        insertNonFull(root, key, value);
+        insertNonFull(requiredRoot, key, value)
     }
 
     private fun insertNonFull(node: TwoThreeNode<K, V>, key: K, value: V) {
@@ -65,9 +78,9 @@ class TwoThreeTree<K : Comparable<K>, V>(
         } else {
             var i = node.keys.size - 1
             while (i >= 0 && key < node.keys[i]) {
-                i--;
+                i--
             }
-            i++;
+            i++
             val child = node.children[i]
             if (child.keys.size == 3) {
                 splitChild(node, i)
@@ -107,8 +120,9 @@ class TwoThreeTree<K : Comparable<K>, V>(
         parent.children.add(index+1, rightNode)
     }
 
-    fun delete(key: K) {
-        delete(root, key)
+    override fun delete(key: K) {
+
+        delete(requiredRoot, key)
     }
 
     private fun delete(node: TwoThreeNode<K, V>, key: K) {
@@ -217,16 +231,16 @@ class TwoThreeTree<K : Comparable<K>, V>(
     }
 
     fun getMaxKey(): K {
-        return getMaxKey(root)
+        return getMaxKey(requiredRoot)
     }
     fun getMaxValue(): V {
-        return getMaxValue(root)
+        return getMaxValue(requiredRoot)
     }
     fun getMinKey(): K {
-        return getMinKey(root)
+        return getMinKey(requiredRoot)
     }
     fun getMinValue(): V {
-        return getMinValue(root)
+        return getMinValue(requiredRoot)
     }
     private fun getMaxKey(node: TwoThreeNode<K, V>): K {
         if (node.keys.isEmpty()) {
@@ -244,12 +258,12 @@ class TwoThreeTree<K : Comparable<K>, V>(
         if (node.keys.isEmpty()) {
             throw IllegalArgumentException()
         }
-        return if (node.isLeaf) node.keys.first() else getMaxKey(node.children.first())
+        return if (node.isLeaf) node.keys.first() else getMinKey(node.children.first())
     }
     private fun getMinValue(node: TwoThreeNode<K, V>): V {
         if (node.keys.isEmpty()) {
             throw IllegalArgumentException()
         }
-        return if (node.isLeaf) node.values.first() else getMaxValue(node.children.first())
+        return if (node.isLeaf) node.values.first() else getMinValue(node.children.first())
     }
 }
