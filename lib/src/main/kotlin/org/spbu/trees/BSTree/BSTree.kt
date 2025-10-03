@@ -1,0 +1,111 @@
+package org.spbu.trees.BSTree
+
+import org.spbu.trees.common.Tree
+
+class BSTree<K : Comparable<K>, V>(
+    override var root: BSNode<K, V>? = null
+) : Tree<K, V, BSNode<K, V>> {
+
+    override fun insert(key: K, value: V) {
+        root = insert(root, key, value)
+    }
+    private fun insert(parent: BSNode<K, V>?, key: K, value: V) : BSNode<K, V> {
+        if (parent == null) {
+            return BSNode<K, V>(key, value)
+        } else if (key < parent.key) {
+            parent.left = insert(parent.left, key, value)
+        } else if (key > parent.key) {
+            parent.right = insert(parent.right, key, value)
+        } else {
+            throw IllegalArgumentException()
+        }
+        return parent
+    }
+
+    fun getMax() : BSNode<K, V> {
+        return getMax(root)
+    }
+    private fun getMax(parent: BSNode<K, V>?) : BSNode<K, V> {
+        if (parent == null) {
+            throw IllegalArgumentException()
+        } else if (parent.right == null) {
+            return parent
+        } else {
+            return getMax(parent.right)
+        }
+    }
+
+    override fun delete(key: K) {
+        root = delete(root, key)
+    }
+    private fun delete(parent: BSNode<K, V>?, key: K) : BSNode<K, V>? {
+        if (parent == null) {
+            throw IllegalArgumentException()
+        } else if (key < parent.key) {
+            parent.left = delete(parent.left, key)
+        } else if (key > parent.key) {
+            parent.right = delete(parent.right, key)
+        } else if (parent.left == null) {
+            return parent.right
+        } else if (parent.right == null) {
+            return parent.left
+        } else {
+            val maxInLeft = getMax(parent.left)
+            maxInLeft.left = delete(parent.left, maxInLeft.key)
+            maxInLeft.right = parent.right
+            return maxInLeft
+        }
+        return parent
+    }
+
+    override fun contains(key: K) : Boolean {
+        return contains(root, key)
+    }
+    private fun contains(parent: BSNode<K, V>?, key: K) : Boolean {
+        if (parent == null)
+            return false
+        else if (key < parent.key)
+            return contains(parent.left, key)
+        else if (key > parent.key)
+            return contains(parent.right, key)
+        else
+            return true
+    }
+
+    override fun search(key: K) : V {
+        return search(root, key)
+    }
+    private fun search(parent: BSNode<K, V>?, key: K) : V {
+        if (parent == null) {
+            throw IllegalArgumentException()
+        } else if (key < parent.key) {
+            return search(parent.left, key)
+        } else if ( key > parent.key) {
+            return search(parent.right, key)
+        } else {
+            return parent.value
+        }
+    }
+
+    override fun iterator(): Iterator<Pair<K, V>> {
+        val elements = mutableListOf<Pair<K, V>>()
+
+        fun traverse(node: BSNode<K, V>) {
+            if (node.left != null) {
+                traverse(node.left!!)
+            }
+
+            elements.add(node.key to node.value)
+
+            if (node.right != null) {
+                traverse(node.right!!)
+            }
+        }
+
+        if (root != null) {
+            traverse(root!!)
+        }
+
+        return elements.iterator()
+    }
+}
