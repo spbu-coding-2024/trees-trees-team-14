@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="org.spbu.trees.AVLTree.AVLTreeTest" tests="28" skipped="0" failures="0" errors="0" timestamp="2025-11-17T21:01:18" hostname="NickLaptop" time="0.021">
+  <properties/>
+  <testcase name="testRightRight" classname="org.spbu.trees.AVLTree.AVLTreeTest" time="0.001"/>
+  <testcase name="equalInsert" classname="org.spbu.trees.AVLTree.AVLTreeTest" time="0.0"/>
+  <testcase name="searchMaxAndMinInEmptyTree" classname="org.spbu.trees.AVLTree.AVLTreeTest" time="0.0"/>
+  <testcase name="testLeftRight" classname="org.spbu.trees.AVLTree.AVLTreeTest" time="0.001"/>
+  <testcase name="testLeftLeft" classname="org.spbu.trees.AVLTree.AVLTreeTest" time="0.0"/>
+  <testcase name="searchMaxMinInTreeWithOneNode" classname="org.spbu.trees.AVLTree.AVLTreeTest" time="0.0"/>
+  <testcase name="testRoot" classname="org.spbu.trees.AVLTree.AVLTreeTest" time="0.0"/>
+  <testcase name="searchInEmptyTree" classname="org.spbu.trees.AVLTree.AVLTreeTest" time="0.0"/>
+  <testcase name="testRightLeft" classname="org.spbu.trees.AVLTree.AVLTreeTest" time="0.0"/>
+  <testcase name="udobniyPerebor" classname="org.spbu.trees.AVLTree.AVLTreeTest" time="0.009"/>
+  <testcase name="deleteAllNodes" classname="org.spbu.trees.AVLTree.AVLTreeTest" time="0.0"/>
+  <testcase name="searchInTree" classname="org.spbu.trees.AVLTree.AVLTreeTest" time="0.001"/>
+  <testcase name="searchMaxAndMin" classname="org.spbu.trees.AVLTree.AVLTreeTest" time="0.0"/>
+  <testcase name="udobniyPereborInNullTree" classname="org.spbu.trees.AVLTree.AVLTreeTest" time="0.003"/>
+  <testcase name="testDeleteLR" classname="org.spbu.trees.AVLTree.AVLTreeTest" time="0.0"/>
+  <testcase name="testDeleteRL" classname="org.spbu.trees.AVLTree.AVLTreeTest" time="0.0"/>
+  <testcase name="testDeleteRR" classname="org.spbu.trees.AVLTree.AVLTreeTest" time="0.001"/>
+  <testcase name="advancedInsertLL" classname="org.spbu.trees.AVLTree.AVLTreeTest" time="0.0"/>
+  <testcase name="advancedInsertLR" classname="org.spbu.trees.AVLTree.AVLTreeTest" time="0.0"/>
+  <testcase name="advancedInsertRL" classname="org.spbu.trees.AVLTree.AVLTreeTest" time="0.001"/>
+  <testcase name="advancedInsertRR" classname="org.spbu.trees.AVLTree.AVLTreeTest" time="0.0"/>
+  <testcase name="advancedDelete1" classname="org.spbu.trees.AVLTree.AVLTreeTest" time="0.0"/>
+  <testcase name="advancedDelete2" classname="org.spbu.trees.AVLTree.AVLTreeTest" time="0.001"/>
+  <testcase name="advancedDelete3" classname="org.spbu.trees.AVLTree.AVLTreeTest" time="0.0"/>
+  <testcase name="advancedDelete4" classname="org.spbu.trees.AVLTree.AVLTreeTest" time="0.0"/>
+  <testcase name="advancedInsert1" classname="org.spbu.trees.AVLTree.AVLTreeTest" time="0.0"/>
+  <testcase name="advancedInsert2" classname="org.spbu.trees.AVLTree.AVLTreeTest" time="0.001"/>
+  <testcase name="advancedInsert3" classname="org.spbu.trees.AVLTree.AVLTreeTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
