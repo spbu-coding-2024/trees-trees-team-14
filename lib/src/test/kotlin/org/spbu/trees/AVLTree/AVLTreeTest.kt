@@ -498,4 +498,33 @@
             assertEquals(emptyList<String>(), tree.values())
             assertEquals(emptyList<Pair<Int, String>>(), tree.pairs())
         }
+        @Test
+        fun udobniyPereborWithIterator(){
+            val tree = AVLTree<Int, String>()
+            val array = arrayOf(39, 70, 79, 33, 90, 91, 95, 31, 40, 53)
+            val arraySorted=array.sorted()
+            for (i in array) {
+                tree.insert(i, numberToWord(i))
+            }
+            var KeyIterator=tree.keyIterator()
+            var i=0
+
+            while (KeyIterator.hasNext()!=false){
+                assertEquals(arraySorted[i],KeyIterator.next())
+                i++
+            }
+            var ValueIterator=tree.valueIterator()
+            i=0
+            while(KeyIterator.hasNext()!=false){
+                assertEquals(numberToWord(arraySorted[i]),ValueIterator.next())
+                i++
+            }
+            var PairsIterator=tree.pairsIterator()
+            i=0
+            while (PairsIterator.hasNext()!=false){
+                assertEquals(Pair<Int,String>(arraySorted[i],numberToWord(arraySorted[i])),PairsIterator.next())
+                i++
+            }
+
+        }
     }
