@@ -44,7 +44,101 @@ abstract class AVLTreeMain<T : Comparable<T>, V> {
         }
         return arrayOfKeys
     }
+    fun keyIterator(): Iterator<T> = object : Iterator<T> {
+        private val stack = Stack<AVLNode<T, V>>()
+        private var current = root
 
+        init {
+            var node = current
+            while (node != null) {
+                stack.push(node)
+                node = node.left
+            }
+        }
+
+        override fun hasNext(): Boolean = !stack.isEmpty()
+
+        override fun next(): T {
+            if (!hasNext()) java.util.NoSuchElementException()
+
+
+            val node = stack.pop()
+            val key = node.key
+
+
+            var temp = node.right
+            while (temp != null) {
+                stack.push(temp)
+                temp = temp.left
+            }
+
+            return key
+        }
+    }
+    fun valueIterator(): Iterator<V> = object : Iterator<V> {
+        private val stack = Stack<AVLNode<T, V>>()
+        private var current = root
+
+        init {
+
+            var node = current
+            while (node != null) {
+                stack.push(node)
+                node = node.left
+            }
+        }
+
+        override fun hasNext(): Boolean = !stack.isEmpty()
+
+        override fun next(): V {
+            if (!hasNext()) java.util.NoSuchElementException()
+
+
+            val node = stack.pop()
+            val value = node.value
+
+
+            var temp = node.right
+            while (temp != null) {
+                stack.push(temp)
+                temp = temp.left
+            }
+
+            return value
+        }
+    }
+    fun pairsIterator(): Iterator<Pair<T,V>> = object : Iterator<Pair<T,V>> {
+        private val stack = Stack<AVLNode<T, V>>()
+        private var current = root
+
+        init {
+            // Идём до самого левого узла и кладём путь в стек
+            var node = current
+            while (node != null) {
+                stack.push(node)
+                node = node.left
+            }
+        }
+
+        override fun hasNext(): Boolean = !stack.isEmpty()
+
+        override fun next(): Pair<T,V> {
+            if (!hasNext()) java.util.NoSuchElementException()
+
+            // Берём узел из стека — это следующий по in-order
+            val node = stack.pop()
+            val key = node.key
+            val value =node.value
+            // Если у узла есть правое поддерево — проваливаемся в его самый левый узел
+            var temp = node.right
+            while (temp != null) {
+                stack.push(temp)
+                temp = temp.left
+            }
+
+            return key to value
+        }
+    }
     fun values(): List<V> {
         if (root == null) return emptyList()
         var current = root
