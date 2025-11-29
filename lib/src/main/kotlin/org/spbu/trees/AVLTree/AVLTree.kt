@@ -211,7 +211,7 @@ class AVLTree<T : Comparable<T>, V> : AVLTreeMain<T, V>() {
         root = insert(root, key, value)
     }
 
-     fun insert(node: AVLNode<T, V>?, key: T, value: V): AVLNode<T, V>? {
+    fun insert(node: AVLNode<T, V>?, key: T, value: V): AVLNode<T, V>? {
         if (node == null) {
             return AVLNode(key, value)
         }
@@ -229,13 +229,12 @@ class AVLTree<T : Comparable<T>, V> : AVLTreeMain<T, V>() {
 
         val balance = balanceFactor(node)
 
-
         if (balance > 1) {
             if (key < node.left!!.key) {
                 return rotateRight(node)
             }
             if (key > node.left!!.key) {
-                return rotateLeftRight(node)
+                return rotateLeftRight(node) // Теперь вызывает новую реализацию
             }
         }
 
@@ -244,7 +243,7 @@ class AVLTree<T : Comparable<T>, V> : AVLTreeMain<T, V>() {
                 return rotateLeft(node)
             }
             if (key < node.right!!.key) {
-                return rotateRightLeft(node)
+                return rotateRightLeft(node) // Теперь вызывает новую реализацию
             }
         }
 
@@ -255,8 +254,7 @@ class AVLTree<T : Comparable<T>, V> : AVLTreeMain<T, V>() {
         root = delete(root, key)
     }
 
-     fun delete(node: AVLNode<T, V>?, key: T): AVLNode<T, V>? {
-
+    fun delete(node: AVLNode<T, V>?, key: T): AVLNode<T, V>? {
         if (node == null) return null
 
         if (key < node.key) {
@@ -264,7 +262,6 @@ class AVLTree<T : Comparable<T>, V> : AVLTreeMain<T, V>() {
         } else if (key > node.key) {
             node.right = delete(node.right, key)
         } else {
-
             if (node.left == null && node.right == null) {
                 return null
             } else if (node.left != null && node.right == null) {
@@ -278,7 +275,6 @@ class AVLTree<T : Comparable<T>, V> : AVLTreeMain<T, V>() {
                 node.right = delete(node.right, minNode.key)
             }
         }
-
 
         node.height = max(height(node.left), height(node.right)) + 1
         val balance = balanceFactor(node)
@@ -294,12 +290,11 @@ class AVLTree<T : Comparable<T>, V> : AVLTreeMain<T, V>() {
             if (balanceFactor(node.right) <= 0) {
                 return rotateLeft(node)
             }
-            return rotateRightLeft(node)
+            return rotateRightLeft(node) // Теперь вызывает новую реализацию
         }
 
         return node
     }
-
 
     fun rotateRight(node: AVLNode<T, V>?): AVLNode<T, V>? {
         val newRoot = node?.left
@@ -327,13 +322,56 @@ class AVLTree<T : Comparable<T>, V> : AVLTreeMain<T, V>() {
         return newRoot
     }
 
+
     fun rotateLeftRight(node: AVLNode<T, V>?): AVLNode<T, V>? {
-        node?.left = rotateLeft(node?.left)
-        return rotateRight(node)
+
+        val y: AVLNode<T, V>? = node?.left
+        val x: AVLNode<T, V>? = y?.right
+        val node1: AVLNode<T, V>? = x?.left
+        val node2: AVLNode<T, V>? = x?.right
+
+        node?.left = x
+        x?.left = y
+        y?.right = node1
+
+        x?.height = max(height(x?.left), height(x?.right)) + 1
+        y?.height = max(height(y?.left), height(y?.right)) + 1
+
+
+        val newRoot: AVLNode<T, V>? = node?.left
+
+        newRoot?.right = node
+        node?.left = node2
+
+        node?.height = max(height(node?.left), height(node?.right)) + 1
+        newRoot?.height = max(height(newRoot?.left), height(newRoot?.right)) + 1
+
+        return newRoot
     }
 
+
     fun rotateRightLeft(node: AVLNode<T, V>?): AVLNode<T, V>? {
-        node?.right = rotateRight(node?.right)
-        return rotateLeft(node)
+
+        val y: AVLNode<T, V>? = node?.right
+        val x: AVLNode<T, V>? = y?.left
+        val node2: AVLNode<T, V>? = x?.right
+
+        node?.right = x
+        x?.right = y
+        y?.left = node2
+
+        y?.height = max(height(y?.left), height(y?.right)) + 1
+        x?.height = max(height(x?.left), height(x?.right)) + 1
+
+
+        val newRoot: AVLNode<T, V>? = node?.right
+        val node1: AVLNode<T, V>? = newRoot?.left
+        newRoot?.left = node
+        node?.right = node1
+
+        node?.height = max(height(node?.left), height(node?.right)) + 1
+        newRoot?.height = max(height(newRoot?.left), height(newRoot?.right)) + 1
+
+        return newRoot
     }
 }
