@@ -8,49 +8,53 @@
 
         // Вспомогательная функция для преобразования числа в слово (для значений)
         private fun numberToWord(n: Int): String = when (n) {
-            1 -> "one"
-            2 -> "two"
-            3 -> "three"
-            4 -> "four"
-            5 -> "five"
-            6 -> "six"
-            7 -> "seven"
-            8 -> "eight"
-            9 -> "nine"
-            10 -> "ten"
-            11 -> "eleven"
-            12 -> "twelve"
-            13 -> "thirteen"
-            14 -> "fourteen"
-            15 -> "fifteen"
-            16 -> "sixteen"
-            17 -> "seventeen"
-            18 -> "eighteen"
-            19 -> "nineteen"
-            20 -> "twenty"
-            22 -> "twenty-two"
-            23 -> "twenty-three"
-            27 -> "twenty-seven"
-            30 -> "thirty"
-            31 -> "thirty-one"
-            33 -> "thirty-three"
-            35 -> "thirty-five"
-            39 -> "thirty-nine"
-            40 -> "forty"
-            45 -> "forty-five"
-            50 -> "fifty"
-            53 -> "fifty-three"
-            55 -> "fifty-five"
-            67 -> "sixty-seven"
-            70 -> "seventy"
-            79 -> "seventy-nine"
-            86 -> "eighty-six"
-            90 -> "ninety"
-            91 -> "ninety-one"
-            93 -> "ninety-three"
-            95 -> "ninety-five"
-            100 -> "hundred"
-            146 -> "one hundred forty-six"
+            in 1..19 -> when (n) {
+                1 -> "one"
+                2 -> "two"
+                3 -> "three"
+                4 -> "four"
+                5 -> "five"
+                6 -> "six"
+                7 -> "seven"
+                8 -> "eight"
+                9 -> "nine"
+                10 -> "ten"
+                11 -> "eleven"
+                12 -> "twelve"
+                13 -> "thirteen"
+                14 -> "fourteen"
+                15 -> "fifteen"
+                16 -> "sixteen"
+                17 -> "seventeen"
+                18 -> "eighteen"
+                19 -> "nineteen"
+                else -> "number_$n" // unreachable for 1..19
+            }
+            in 20..99 -> {
+                val tens = n / 10
+                val ones = n % 10
+                val tensWord = when (tens) {
+                    2 -> "twenty"
+                    3 -> "thirty"
+                    4 -> "forty"
+                    5 -> "fifty"
+                    6 -> "sixty"
+                    7 -> "seventy"
+                    8 -> "eighty"
+                    9 -> "ninety"
+                    else -> "tens_$tens" // unreachable for 2..9
+                }
+                if (ones == 0) tensWord else "$tensWord-${numberToWord(ones)}"
+            }
+            in 100..150 -> {
+                val hundreds = n / 100
+                val remainder = n % 100
+                val hundredsWord = when (hundreds) {
+                    1 -> "one"
+                    else -> "hundreds_$hundreds" // unreachable for 1..1
+                }
+                if (remainder == 0) "${hundredsWord} hundred" else "${hundredsWord} hundred ${numberToWord(remainder)}"
+            }
             else -> "number_$n"
         }
 

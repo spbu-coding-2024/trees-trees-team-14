@@ -120,6 +120,8 @@ abstract class AVLTreeMain<T : Comparable<T>, V> {
             }
         }
 
+
+
         override fun hasNext(): Boolean = !stack.isEmpty()
 
         override fun next(): Pair<T,V> {
